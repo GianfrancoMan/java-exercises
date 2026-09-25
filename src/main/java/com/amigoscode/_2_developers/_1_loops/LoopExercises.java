@@ -22,6 +22,13 @@ public class LoopExercises {
         //  Outer loop iterates rows 1..n, inner loop iterates columns 1..n.
         //  Print each product followed by a tab, and a newline after each row.
 
+        for (int i = 1; i <=n; i++) {
+            for (int j = 1; j <= n; j++) {
+                System.out.print((i * j) + "  ");
+            }
+            System.out.println();
+        }
+
     }
 
     /**
@@ -35,6 +42,10 @@ public class LoopExercises {
         int sum = 0;
         // TODO: 2 - Loop from 1 to n. Use 'continue' to skip multiples of 3.
         //  Use 'break' to stop if sum exceeds 100. Add the current number to sum otherwise.
+        for(int i = 0; i <= n; i++) {
+            sum = n/3 == 0 ? sum : sum + i;
+            if(sum > 100)  break;
+        }
 
         return sum;
     }
@@ -53,6 +64,16 @@ public class LoopExercises {
         //  Use nested loops to iterate through the matrix.
         //  When the target is found, set result to "Found at [row][col]" and
         //  use 'break search;' to exit both loops.
+        for(int i = 0; i < matrix.length; i++) {
+            for(int j = 0; j < matrix[i].length; j++) {
+                if(matrix[i][j] == target) {
+                    result = "Found at [" + i + "][" + j + "]";
+                    break;
+                }
+            }
+            if(!result.equals("Not found"))
+                break;
+        }
 
         return result;
     }
@@ -68,6 +89,11 @@ public class LoopExercises {
         long accumulator = 1;
         // TODO: 4 - Use a for loop from 1 to n (inclusive), multiplying accumulator
         //  by the loop variable each iteration. Return the result.
+        if(n > 0) {
+            for(int i= n; i>=1; i--) {
+                accumulator *= i;
+            }
+        }
 
         return accumulator;
     }
@@ -86,7 +112,18 @@ public class LoopExercises {
         // TODO: 5 - Use nested loops to print a centered pyramid of stars.
         //  For each row i (0-based), print (rows - i - 1) spaces followed by (2 * i + 1) stars.
         //  Print a newline after each row.
+        int hlp = 0;
+        while (hlp < rows) {
 
+            for(int i = 0; i < rows - hlp - 1; i++)
+                System.out.print(" ");
+
+            for(int i = 0; i < 2 * hlp + 1; i++)
+                System.out.print("*");
+
+            System.out.println();
+            hlp++;
+        }
     }
 
     /**
@@ -100,6 +137,12 @@ public class LoopExercises {
         StringBuilder sb = new StringBuilder();
         // TODO: 6 - Use a for loop starting from the last index down to 0.
         //  Append each element to sb. Add ", " between elements but not after the last one.
+        for (int i = arr.length - 1; i >= 0; i--) {
+            sb.append(arr[i]);
+
+            if(i != 0)
+                sb.append(",");
+        }
 
         return sb.toString();
     }
@@ -118,6 +161,14 @@ public class LoopExercises {
         // TODO: 7 - Use while(true) to create an infinite loop.
         //  Each iteration: increment attempts, generate a random int between 1 and 100,
         //  and break if it matches the target.
+        if(target < 1 || target > 100) {
+            System.out.println("Invalid target. Must be between 1 and 100.");
+            return -1;
+        }
+        while (true) {
+            if (random.nextInt(101) == target) break;
+            attempts++;
+        }
 
         return attempts;
     }
@@ -141,6 +192,7 @@ public class LoopExercises {
         System.out.println("\n=== Factorial ===");
         System.out.println("5! = " + factorial(5));
         System.out.println("10! = " + factorial(10));
+//    System.out.println("-5! = " + factorial(-5));
 
         System.out.println("\n=== Pyramid (5 rows) ===");
         printPyramid(5);
