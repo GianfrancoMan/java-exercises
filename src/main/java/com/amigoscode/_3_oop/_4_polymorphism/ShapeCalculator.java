@@ -28,15 +28,34 @@ public class ShapeCalculator {
     //   Print: "The <className> has an area of <area>"
     //   Use shape.getClass().getSimpleName() to get the class name.
     //   Use String.format("%.2f", shape.area()) for formatting.
+    void printShapeArea(Shape shape) {
+        System.out.println(String.format("The %s has an area of %.2f", shape.getClass().getSimpleName(), shape.area()));
+    }
 
 
     // TODO: 2 - Create a method: double totalArea(List<Shape> shapes)
     //   Iterate over all shapes and return the sum of their areas.
+    double totalArea(List<Shape> shapes) {
+        double total = 0;
+        for (Shape shape : shapes) {
+            total += shape.area();
+        }
+        return total;
+    }
 
 
     // TODO: 3 - Create a method: Shape largestShape(List<Shape> shapes)
     //   Return the shape with the largest area.
     //   If the list is empty, return null.
+    Shape largestShape(List<Shape> shapes) {
+        Shape largest = null;
+        for (Shape shape : shapes) {
+            if (largest == null || shape.area() > largest.area()) {
+                largest = shape;
+            }
+        }
+        return largest;
+    }
 
 
     // TODO: 4 - Create a method: String describeShape(Shape shape)
@@ -46,12 +65,24 @@ public class ShapeCalculator {
     //     (just return "Circle detected with area: " + c.area())
     //   - If shape is a Rectangle r: return "Rectangle detected with area: " + r.area()
     //   - Otherwise: return "Unknown shape with area: " + shape.area()
+    String describeShape(Shape shape) {
+        if(shape instanceof Circle c) {
+            return "Circle detected with area: " + c.area();
+        } else if(shape instanceof Rectangle r) {
+            return "Rectangle detected with area: " + r.area();
+        } else {
+            return "Unknown shape with area: " + shape.area();
+        }
+    }
 
 
     // TODO: 5 - Create a method: String formatSummary(List<Shape> shapes)
     //   Return a formatted summary string like:
     //   "Summary: <N> shapes, total area: <totalArea>, largest area: <largestArea>"
     //   Use the totalArea() and largestShape() methods you already wrote.
+    String formatSummary(List<Shape> shapes) {
+        return shapes.size() + " shapes, total area: " + totalArea(shapes) + ", largest area: " + largestShape(shapes).area();
+    }
 
 
     // TODO: 6 - In main, create a List<Shape> with at least two Circles
@@ -61,5 +92,17 @@ public class ShapeCalculator {
 
     public static void main(String[] args) {
         // Complete TODO 6 here.
+        List<Shape> shapes = new ArrayList<>();
+        shapes.add(new Circle(10));
+        shapes.add(new Rectangle(5, 10));
+        shapes.add(new Circle(20));
+        shapes.add(new Rectangle(15, 20));
+
+        ShapeCalculator calculator = new ShapeCalculator();
+
+        for (Shape shape : shapes) {
+            calculator.printShapeArea(shape);
+        }
+        System.out.println(calculator.formatSummary(shapes));
     }
 }

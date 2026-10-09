@@ -16,15 +16,17 @@ package com.amigoscode._3_oop._3_abstractclasses;
 
 // TODO: 1 - Make this class abstract by adding the `abstract` keyword.
 //   An abstract class cannot be instantiated directly.
-public class Shape {
+public abstract class Shape {
 
     // TODO: 2 - Declare an abstract method: double area()
     //   Abstract methods have no body — just the signature followed by ;
     //   Every subclass of Shape must implement this method.
+    public abstract double area();
 
 
     // TODO: 3 - Declare an abstract method: double perimeter()
     //   Every subclass of Shape must implement this method.
+    public abstract double perimeter();
 
 
     // TODO: 4 - Create a concrete (non-abstract) method: void describe()
@@ -32,10 +34,18 @@ public class Shape {
     //   "This shape has area: <area()> and perimeter: <perimeter()>"
     //   Note: you can call abstract methods from concrete methods!
     //   At runtime, the subclass implementation will be used.
+    public void describe() {
+        System.out.println("This shape has area: " + area() + " and perimeter: " + perimeter());
+    }
+
 
 
     // TODO: 5 - Override toString() to return:
     //   "Shape[area=<area()>, perimeter=<perimeter()>]"
     //   Use String.format("%.2f", value) to format to 2 decimal places.
+    @Override
+    public String toString() {
+        return String.format("Shape[area=%.2f, perimeter=%.2f]", area(), perimeter());
+    }
 
 }

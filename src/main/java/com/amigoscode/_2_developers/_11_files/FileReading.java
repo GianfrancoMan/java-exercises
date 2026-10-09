@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -129,8 +130,10 @@ public class FileReading {
 
         try {
             return Files.readString(Path.of(filePath));
+        } catch (NoSuchFileException e) {
+            return "File not found: " + e.getMessage() ;
         } catch (IOException e) {
-            return "ERROR READING FILE";
+            return "Error reading file: " + e.getMessage();
         }
     }
 
