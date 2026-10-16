@@ -3,6 +3,7 @@ package com.amigoscode._3_oop._6_solid;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Exercise: SOLID Principles
@@ -68,25 +69,13 @@ public class SolidExercises {
     }
 
     static class UserManager {
-        private final UserValidator validator;
-        private final UserRepository repository;
-        private final UserNotifier notifier;
+        protected  UserValidator validator;
+        protected  UserRepository repository;
+        protected  UserNotifier notifier;
         public UserManager(UserValidator validator, UserRepository repository, UserNotifier notifier) {
             this.validator = validator;
             this.repository = repository;
             this.notifier = notifier;
-        }
-
-        public UserValidator getValidator() {
-            return validator;
-        }
-
-        public UserRepository getRepository() {
-            return repository;
-        }
-
-        public UserNotifier getNotifier() {
-            return notifier;
         }
     }
 
@@ -349,9 +338,9 @@ public class SolidExercises {
         UserRepository userRepository = new UserRepository();
         UserNotifier userNotifier = new UserNotifier();
         UserManager userManager = new UserManager(userValidator, userRepository, userNotifier);
-        userManager.getValidator().validate("Alice", "alice@test.com");
-        userManager.getRepository().save("Alice", "alice@test.com");
-        userManager.getNotifier().sendWelcome("alice@test.com");
+        userManager.validator.validate("Alice", "alice@test.com");
+        userManager.repository.save("Alice", "alice@test.com");
+        userManager.notifier.sendWelcome("alice@test.com");
 
 
         // TODO: 7 - Test OCP: Create a DiscountCalculator and several Discount
@@ -372,6 +361,5 @@ public class SolidExercises {
         System.out.println(reportGenerator.generateReport());
         reportGenerator = new ReportGenerator(new PostgreSQLDatabase());
         System.out.println(reportGenerator.generateReport());
-
     }
 }
