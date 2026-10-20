@@ -16,30 +16,41 @@ public class ClassCastProblem {
 
     public static void main(String[] args) {
 
-        // TODO: 1 - Create a raw (non-generic) ArrayList without any type parameter.
-        //  Hint: List list = new ArrayList();
+        // Create a raw (non-generic) ArrayList without any type parameter.
+        List list = new ArrayList();
 
 
-        // TODO: 2 - Add a String "Hello" and an Integer 42 to the raw list.
+        // Add a String "Hello" and an Integer 42 to the raw list.
         //  This compiles fine because raw lists accept any Object.
+        list.add("hello"); list.add(42);
 
 
-        // TODO: 3 - Iterate through the list and try to cast every element to String.
+        // Iterate through the list and try to cast every element to String.
         //  Use a for loop: for (int i = 0; i < list.size(); i++)
         //  Inside the loop, cast list.get(i) to String and print it.
         //  This will compile, but will throw ClassCastException at runtime
         //  when it reaches the Integer element.
+        for(int i = 0; i < list.size(); i ++) {
+            try {
+                System.out.println((String )list.get(i));
+            }catch (Exception e) {
+                System.out.println(e);
+            }
+        }
 
 
-        // TODO: 4 - Wrap the casting code from TODO 3 in a try-catch block
+        // Wrap the casting code from in a try-catch block
         //  that catches ClassCastException. Print the exception message
         //  so you can see what went wrong.
 
 
-        // TODO: 5 - Add a comment below explaining:
+        // Add a comment below explaining:
         //  (a) Why did the ClassCastException occur?
+        // I try to cast an int as a String, this generated a ClassCastException
         //  (b) How do generics (e.g., List<String>) prevent this problem?
+        //Using generics, the problem arises in the compilation time.
         //  (c) At what stage (compile-time or runtime) do generics catch type errors?
+        //Compile-time
 
     }
 }
