@@ -16,7 +16,7 @@ public class AverageAndSum {
 
     record Product(String name, double price, int quantity) {}
 
-    public static void main(String[] args) {
+    static void main(String[] args) {
         List<Student> students = List.of(
                 new Student("Alice", 92),
                 new Student("Bob", 85),
@@ -37,30 +37,43 @@ public class AverageAndSum {
         // TODO: 1 - Calculate the sum of all student scores
         //           Use mapToInt(Student::score).sum()
         //           Print the result
-
+        System.out.println("\nSum of students score:");
+        System.out.println(students.stream().mapToInt(s -> s.score()).sum());
 
         // TODO: 2 - Calculate the average of all student scores
         //           Use mapToDouble(Student::score).average()
         //           Print the result (remember: average() returns OptionalDouble)
+        System.out.println("\nAverage of students score:");
+        System.out.println(students.stream().mapToDouble(s -> s.score()).average().orElse(0));
 
 
         // TODO: 3 - Use Collectors.summingInt() to sum all student scores
         //           Print the result
+        System.out.println("\nSum of students score by Collectors method:");
+        System.out.println(students.stream().collect(Collectors.summingInt(Student::score)));
 
 
         // TODO: 4 - Use Collectors.averagingDouble() to average all product prices
         //           Print the result
+        System.out.println("\nAverage of products price  by Collectors method:");
+        System.out.println(products.stream().collect(Collectors.averagingDouble(Product::price)));
 
 
         // TODO: 5 - Calculate the weighted average of products:
         //           weighted avg = sum(price * quantity) / sum(quantity)
         //           Hint: Use mapToDouble for the numerator and mapToInt for denominator
         //           Print the result
+        System.out.println("\nWeighted average:");
+        double sumPricePerQuantity = products.stream().mapToDouble(p -> p.price() * p.quantity()).sum();
+        int sumQuantity = products.stream().mapToInt(Product::quantity).sum();
+        System.out.println(sumPricePerQuantity / sumQuantity);
 
 
         // TODO: 6 - Handle an empty stream: calculate the average of 'emptyStudents' scores
         //           Use orElse(0.0) to provide a default value when no elements exist
         //           Print the result
+        System.out.println("\nAverage of the score for an empty students list:");
+        System.out.println(emptyStudents.stream().mapToDouble(s -> s.score()).average().orElse(0.0));
 
     }
 }

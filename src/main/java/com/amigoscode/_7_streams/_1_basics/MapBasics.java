@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
  */
 public class MapBasics {
 
-    public static void main(String[] args) {
+    static void main(String[] args) {
         List<String> names = List.of("alice", "bob", "charlie", "diana", "eve");
         List<String> words = List.of("Java", "Streams", "Are", "Powerful", "Tools");
         List<Integer> numbers = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
@@ -19,28 +19,29 @@ public class MapBasics {
 
         // TODO: 1 - Map 'names' to uppercase and print each result
         //           Use String::toUpperCase
-
+        names.stream().map(String::toUpperCase).forEach(System.out::println);
 
         // TODO: 2 - Map 'words' to their lengths (String -> Integer)
         //           Print each length
-
+        words.stream().mapToInt(String::length).forEach(System.out::println);
 
         // TODO: 3 - Map 'numbers' to their squares (n -> n * n)
         //           Print each squared value
-
+        numbers.stream().map(n -> n * n).forEach(System.out::println);
 
         // TODO: 4 - Map 'names' to greeting strings: "Hello, {name}!"
         //           where name should be capitalized (first letter uppercase, rest lowercase)
         //           Print each greeting
-
+        names.stream().map(s -> String.format("Hello, %s!", s)).forEach(System.out::println);
 
         // TODO: 5 - Chain map and filter: take 'numbers', filter to keep only even numbers,
         //           then map each to its cube (n * n * n)
         //           Print each result
-
+        numbers.stream().filter(n -> n%2 == 0).map(n  -> n*n*n).forEach(s-> System.out.println(s));
 
         // TODO: 6 - Map 'numberStrings' from String to Integer using Integer::parseInt
         //           Then collect to a List and print the list
-
+        List<Integer> numbersFromStrings = numberStrings.stream().map(n -> Integer.parseInt(n)).collect(Collectors.toList());
+        System.out.println(numbersFromStrings);
     }
 }

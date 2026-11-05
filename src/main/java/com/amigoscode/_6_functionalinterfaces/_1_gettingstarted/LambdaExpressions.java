@@ -1,10 +1,12 @@
 package com.amigoscode._6_functionalinterfaces._1_gettingstarted;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 
 /**
  * Exercise: Lambda Expressions
@@ -15,24 +17,27 @@ import java.util.function.BiFunction;
  */
 public class LambdaExpressions {
 
-    public static void main(String[] args) throws Exception {
+    static void main(String[] args) throws Exception {
 
         List<String> names = Arrays.asList("Charlie", "Al", "Bob", "Alexandra");
 
         // TODO: 1 - Create a Comparator<String> as a lambda that compares strings
         //  by their length (shorter strings first). Use it to sort the names list.
         //  Hint: Use names.sort(...) or Collections.sort(names, ...)
-
+        Comparator<String> lengthComparator = (a, b) -> a.length() - b.length();
+        Collections.sort(names, lengthComparator);
 
         System.out.println("Sorted by length: " + names);
 
         // TODO: 2 - Create a Runnable as a lambda that prints
         //  "Running in a lambda!" to the console. Then execute it by calling run().
-
+        Runnable lambdaRunnable = () -> System.out.println("Running in a lambda!");
+        lambdaRunnable.run();
 
         // TODO: 3 - Create a Callable<String> as a lambda that returns
         //  "Result from Callable". Then call it using call() and print the result.
-
+        Callable<String> lambdaCallable = () -> "Result from Callable";
+        System.out.println(lambdaCallable.call());
 
         // TODO: 4 - The following multi-line lambda calculates the sum of two
         //  integers. Rewrite it as a single-expression lambda (no curly braces,
@@ -43,21 +48,27 @@ public class LambdaExpressions {
         };
         System.out.println("Verbose sum: " + sumVerbose.apply(3, 4));
 
+        BiFunction<Integer, Integer, Integer> sumSlim = (a, b) -> a + b;
+        System.out.println("Slim sum: " + sumSlim.apply(3, 4));
 
         // TODO: 5 - Create a BiFunction<String, String, String> lambda that
         //  concatenates two strings with " + " in between.
         //  Example: ("Hello", "World") -> "Hello + World"
-
+        BiFunction<String, String, String> concat = (s1, s2) -> s1 + " + " + s2;
+        System.out.println("Concat on the fly: " + concat.apply("Hello", "World"));
 
         // TODO: 6 - Store a lambda in a variable called 'exclaim' of type
         //  java.util.function.Function<String, String> that appends "!" to
         //  any string. Then reuse it: apply it to "Hello" and "Goodbye",
         //  printing both results.
-
+        Function<String, String> exclaim = s -> s + "!";
+        System.out.println(exclaim.apply("Hello"));
+        System.out.println(exclaim.apply("Goodbye"));
 
         // TODO: 7 - Call the processName method below, passing a lambda directly
         //  (not stored in a variable) that converts a name to uppercase.
         //  Print the result.
+        System.out.println(processName("Gianfranco", s -> s.toUpperCase()));
 
     }
 

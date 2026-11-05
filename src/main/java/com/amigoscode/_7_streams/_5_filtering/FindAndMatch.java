@@ -2,6 +2,7 @@ package com.amigoscode._7_streams._5_filtering;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 /**
  * Exercise: Find and Match Operations
@@ -14,7 +15,7 @@ public class FindAndMatch {
 
     record Product(String name, double price, String category) {}
 
-    public static void main(String[] args) {
+    static void main(String[] args) {
         List<Integer> numbers = List.of(2, 4, 6, 8, 10, 11, 12, 14);
         List<String> names = List.of("Alice", "Bob", "Charlie", "Diana", "Eve");
         List<Product> products = List.of(
@@ -29,36 +30,57 @@ public class FindAndMatch {
 
         // TODO: 1 - Use findFirst() to find the first number greater than 7 in 'numbers'
         //           Print the result
-
+        System.out.println("\nFind First");
+        numbers.stream().filter(n -> n > 7).findFirst().ifPresent(System.out::println);
 
         // TODO: 2 - Use findAny() on a parallel stream of 'names' to find any name
         //           starting with a vowel (A, E, I, O, U)
         //           Print the result (may vary between runs due to parallelism)
+        System.out.println("\nFind Any");
+
+//        Predicate<String> startsWith = s -> switch (s.substring(0,1)) {
+//            case "A", "E", "I", "O", "U" -> true;
+//            default -> false;
+//        };
+//        names.stream().filter(startsWith).findAny().ifPresent(System.out::println);
+        names.parallelStream().filter(n -> "AEIOU".indexOf(n.charAt(0)) >= 0).findAny().ifPresent(System.out::println);
 
 
         // TODO: 3 - Use allMatch() to check if all elements in 'evenNumbers' are even
         //           Print true or false
-
+        System.out.println("\nAll Matches");
+        System.out.println(evenNumbers.stream().allMatch(n -> n % 2 == 0));
 
         // TODO: 4 - Use anyMatch() to check if at least one product in 'products'
         //           has a price over 500
         //           Print true or false
-
+        System.out.println("\nAny Matches");
+        System.out.println(products.stream().anyMatch(p -> p.price() > 500));
 
         // TODO: 5 - Use noneMatch() to check that no product in 'products'
         //           has a negative price
         //           Print true or false
-
+        System.out.println("\nNone Matches");
+        System.out.println(products.stream().noneMatch(p -> p.price() < 0));
 
         // TODO: 6 - Handle the Optional from findFirst() properly:
         //           Find the first product in "Furniture" category
         //           Use ifPresentOrElse to print the product name or "Not found"
-
+        System.out.println("\nHandle Optional Properly");
+        products.stream().filter(p -> p.category().equals("Furniture"))
+                .findFirst().ifPresentOrElse(System.out::println, () -> System.out.println("Not Found"));
 
         // TODO: 7 - Combine filter + findFirst to search for a specific product:
         //           Find the first product with price between 100 and 300
         //           Use map to extract just the name, then orElse("Not found")
         //           Print the result
+        System.out.println("\n Product price between 100 and 300");
+        System.out.println(
+                products.stream()
+                    .filter( p-> p.price() >= 100 && p.price() <= 300)
+                        .map(p -> p.name())
+                            .findFirst().orElse("Not Found")
+        );
 
     }
 }

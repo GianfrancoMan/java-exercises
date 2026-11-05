@@ -13,7 +13,7 @@ public class JoiningExercise {
 
     record Person(String firstName, String lastName) {}
 
-    public static void main(String[] args) {
+    static void main(String[] args) {
         List<String> fruits = List.of("Apple", "Banana", "Cherry", "Date", "Elderberry");
 
         List<Person> people = List.of(
@@ -29,28 +29,38 @@ public class JoiningExercise {
         // TODO: 1 - Join 'fruits' with a comma and space separator: ", "
         //           Use Collectors.joining(", ")
         //           Print the result (should be: "Apple, Banana, Cherry, Date, Elderberry")
-
+        System.out.println("\n#### Join 'fruits' with a comma and space separator ####\n");
+        System.out.println(fruits.stream().map(f -> f.substring(0, 1).toUpperCase() + f.substring(1)).collect(Collectors.joining(", ")));
 
         // TODO: 2 - Join 'fruits' with comma separator, and add prefix "[" and suffix "]"
         //           Use Collectors.joining(", ", "[", "]")
         //           Print the result (should be: "[Apple, Banana, Cherry, Date, Elderberry]")
-
+        System.out.println("\n#### Join 'fruits' with comma separator, and add prefix \"[\" and suffix \"]\" ####\n");
+        String transformed =
+                //fruits.stream().map(f -> f.substring(0, 1).toUpperCase() + f.substring(1)).collect(Collectors.joining(", ")).transform(s -> "[" + s + "]");
+                fruits.stream().map(f -> f.substring(0, 1).toUpperCase() + f.substring(1)).collect(Collectors.joining(", ", "[", "]"));
+        System.out.println(transformed);
 
         // TODO: 3 - Join full names from 'people' (firstName + " " + lastName)
         //           with " | " separator
         //           Map each Person to their full name first, then join
         //           Print the result
-
+        System.out.println("\n#### Join full names from 'people' (firstName + \" \" + lastName) with \" | \" separator ####");
+        System.out.println(people.stream().map(p -> p.firstName() + " " + p.lastName()).collect(Collectors.joining("|")) + "\n");
 
         // TODO: 4 - Join 'fruits' with a newline separator "\n"
         //           This creates a multi-line string with each fruit on its own line
         //           Print the result
-
+        System.out.println("\n#### Join 'fruits' with a newline separator \"\\n\" ####");
+        System.out.println(fruits.stream().collect(Collectors.joining("\n")) + "\n");
 
         // TODO: 5 - Build a CSV line: join the 'values' list with comma separator
         //           Then do the same for 'headers'
         //           Print the header line first, then the values line
         //           This simulates writing a simple CSV output
-
+        System.out.println("\n#### Build CSV simulation  ####");
+        String valuesLine = values.stream().collect(Collectors.joining(","));
+        String headersLine = headers.stream().collect(Collectors.joining(","));
+        System.out.println(headersLine + "\n" + valuesLine);
     }
 }

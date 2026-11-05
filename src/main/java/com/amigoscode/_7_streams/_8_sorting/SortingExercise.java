@@ -1,8 +1,12 @@
 package com.amigoscode._7_streams._8_sorting;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Exercise: Sorting Streams
@@ -14,7 +18,7 @@ public class SortingExercise {
 
     record Person(String name, int age, String city) {}
 
-    public static void main(String[] args) {
+    static void main(String[] args) {
         List<String> fruits = List.of("Banana", "Apple", "Cherry", "Date", "Elderberry", "Fig", "Grape");
 
         List<Person> people = List.of(
@@ -32,37 +36,49 @@ public class SortingExercise {
         // TODO: 1 - Sort 'fruits' in natural (alphabetical) order
         //           Use sorted() without arguments
         //           Print each fruit
-
+        System.out.println("\n#### Sort fruits in natural alphabetical order ####\n");
+        fruits.stream().sorted().forEach(System.out::println);
 
         // TODO: 2 - Sort 'words' by their length (shortest first)
         //           Use sorted(Comparator.comparingInt(String::length))
         //           Print each word
+        System.out.println("\n#### Sort 'words' by their length ####\n");
+        words.stream().sorted(Comparator.comparingInt(String::length)).forEach(System.out::println);
 
 
         // TODO: 3 - Sort 'people' by age (youngest first)
         //           Print each person's name and age
-
+        System.out.println("\n#### Sort 'people' by age (youngest first) ####\n");
+        people.stream().sorted(Comparator.comparing(Person::age)).forEach(p -> System.out.println(p.name() + " is " + p.age() + " years old."));
 
         // TODO: 4 - Sort 'fruits' in reverse alphabetical order
         //           Use Comparator.reverseOrder()
         //           Print each fruit
-
+        System.out.println("\n#### Sort fruits in reversed alphabetical order ####\n");
+        fruits.stream().sorted(Comparator.reverseOrder()).forEach(System.out::println);
 
         // TODO: 5 - Sort 'people' by multiple criteria: first by age, then by name
         //           People with the same age should be sorted alphabetically by name
         //           Print each person
-
+        System.out.println("\n#### Sort 'people' by multiple criteria: first by age, then by name ####\n");
+        people.stream().sorted(Comparator.comparing(Person::age).thenComparing(Person::name))
+                .forEach(System.out::println);
 
         // TODO: 6 - Sort 'people' using Comparator.comparing() with a key extractor
         //           Sort by city name
         //           Print each person's name and city
-
+        System.out.println("\n#### Sort 'people' by the length of the city name using key extractor ####\n");
+        people.stream().sorted(Comparator.comparing(p -> p.city(), Comparator.comparing(String::length)))
+             .forEach(p -> System.out.println(p.name() + " live in " + p.city()));
 
         // TODO: 7 - Use thenComparing for secondary sort:
         //           Sort 'people' by city first, then by age descending within each city
         //           Hint: Use Comparator.comparing(Person::city)
         //                 .thenComparing(Comparator.comparingInt(Person::age).reversed())
         //           Collect to a list and print
-
+        System.out.println("\n#### Sort 'people' by the city and then by the age(descending) ####\n");
+        List<Person> sorted = people.stream().sorted(Comparator.comparing(Person::city).thenComparing(Person::age).reversed())
+                .collect(Collectors.toList());
+        sorted.forEach(System.out::println);
     }
 }

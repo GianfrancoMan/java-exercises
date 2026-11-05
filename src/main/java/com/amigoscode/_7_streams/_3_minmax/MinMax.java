@@ -1,5 +1,7 @@
 package com.amigoscode._7_streams._3_minmax;
 
+import com.amigoscode._7_streams._7_statistics.CountMinMax;
+
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +17,7 @@ public class MinMax {
 
     record Person(String name, int age) {}
 
-    public static void main(String[] args) {
+    static void main(String[] args) {
         List<Integer> numbers = List.of(45, 12, 89, 3, 67, 34, 91, 23, 56);
         List<String> words = List.of("Java", "Streams", "Hi", "Programming", "API", "Go");
         List<Person> people = List.of(
@@ -30,30 +32,42 @@ public class MinMax {
         // TODO: 1 - Find the minimum value in 'numbers' using stream min()
         //           Use Comparator.naturalOrder() or Integer::compareTo
         //           Print the result
-
+        System.out.println("Min: " +
+                numbers.stream().min(Comparator.naturalOrder()).get()
+        );
 
         // TODO: 2 - Find the maximum value in 'numbers' using stream max()
         //           Print the result
-
+        System.out.println("Max: " +
+                numbers.stream().max(Comparator.naturalOrder()).get()
+        );
 
         // TODO: 3 - Find the shortest string in 'words' by comparing string length
         //           Use Comparator.comparingInt(String::length)
         //           Print the result
-
+        System.out.println("Word with shorter length: " +
+                words.stream().min(Comparator.comparing(String::length)).get()
+                );
 
         // TODO: 4 - Find the youngest person from 'people'
         //           Use Comparator.comparingInt(Person::age)
         //           Print the person's name and age
-
+        System.out.println("Youngest person: " +
+                people.stream().min(Comparator.comparingInt(Person::age)).get()
+        );
 
         // TODO: 5 - Find the maximum value in 'numbers' using reduce() instead of max()
         //           Use Integer::max as the binary operator
         //           Print the result
-
+        System.out.println("Maximum number with reduce: " +
+                numbers.stream().reduce(Integer::max).get()
+        );
 
         // TODO: 6 - Handle the empty stream case: try to find min of 'emptyList'
         //           Use orElse() to provide a default value of -1
         //           Print the result
-
+        System.out.println("Empty list: " +
+                emptyList.stream().min(Comparator.naturalOrder()).orElse(-1)
+        );
     }
 }

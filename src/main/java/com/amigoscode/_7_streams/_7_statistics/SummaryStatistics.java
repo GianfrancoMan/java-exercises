@@ -16,7 +16,7 @@ public class SummaryStatistics {
 
     record Sale(String product, double amount, int unitsSold) {}
 
-    public static void main(String[] args) {
+    static void main(String[] args) {
         List<Integer> scores = List.of(85, 92, 78, 95, 88, 73, 91, 82, 97, 76);
 
         List<Sale> sales = List.of(
@@ -33,27 +33,43 @@ public class SummaryStatistics {
         // TODO: 1 - Get IntSummaryStatistics from the 'scores' list
         //           Use mapToInt and summaryStatistics()
         //           Store the result in a variable
-
+        System.out.println("\n### Statistics from scores ###");
+        IntSummaryStatistics statistics = scores.stream().mapToInt(Integer::new).summaryStatistics();
 
         // TODO: 2 - Print the count, sum, min, max, and average from the
         //           IntSummaryStatistics obtained in TODO 1
         //           Use getCount(), getSum(), getMin(), getMax(), getAverage()
-
+        System.out.println
+                ("Count: " + statistics.getCount() +
+                "\nSum: " + statistics.getSum() +
+                "\nMin: " + statistics.getMin() +
+                "\nMax: " + statistics.getMax() +
+                "\nAverage: " + statistics.getAverage());
 
         // TODO: 3 - Use the Collectors.summarizingInt() collector to get
         //           IntSummaryStatistics for unitsSold from 'sales'
         //           Print the result
-
+        System.out.println("\n### Statistics from sales unitSold using Collectors.summarizingInt ###");
+        IntSummaryStatistics unitSoldStatistics = sales.stream().collect(Collectors.summarizingInt(Sale::unitsSold));
+        System.out.println(unitSoldStatistics);
 
         // TODO: 4 - Create DoubleSummaryStatistics for the sale amounts from 'sales'
         //           Use mapToDouble and summaryStatistics()
         //           Print all the statistics
-
+        System.out.println("\n### Statistics from sales amount ###");
+        DoubleSummaryStatistics amountStatistics = sales.stream().map(s -> s.amount()).mapToDouble(Double::new).summaryStatistics();
+        System.out.println(amountStatistics);
 
         // TODO: 5 - Combine two IntSummaryStatistics:
         //           Create stats for 'batch1' and 'batch2' separately,
         //           then use the combine() method to merge them
         //           Print the combined statistics
-
+        System.out.println("\n### Statistics from batch1, batch2 and their combinations ###");
+        IntSummaryStatistics stats1 = batch1.stream().mapToInt(Integer::new).summaryStatistics();
+        IntSummaryStatistics stats2 = batch2.stream().mapToInt(Integer::new).summaryStatistics();
+        System.out.println(stats1);
+        System.out.println(stats2);
+        stats1.combine(stats2);
+        System.out.println(stats1);
     }
 }

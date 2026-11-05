@@ -3,6 +3,7 @@ package com.amigoscode._7_streams._2_intstreams;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
+import java.util.stream.Stream;
 
 /**
  * Exercise: IntStream.iterate and Specialized Streams
@@ -12,19 +13,19 @@ import java.util.stream.LongStream;
  */
 public class IntStreamIterate {
 
-    public static void main(String[] args) {
+    static void main(String[] args) {
 
         // TODO: 1 - Use IntStream.iterate to generate the first 10 even numbers
         //           starting from 0 (0, 2, 4, 6, ..., 18)
         //           Use iterate(seed, unaryOperator) with limit(10)
         //           Print each number
-
+        IntStream.iterate(0, i -> (i+2)).limit(10).forEach(System.out::println);
 
         // TODO: 2 - Use the 3-argument IntStream.iterate(seed, hasNext, next)
         //           to generate numbers from 1 to 100 that are multiples of 7
         //           The hasNext predicate should stop when the value exceeds 100
         //           Print each number
-
+        IntStream.iterate(1, p-> p <= 100, uo-> uo+7).forEach(System.out::println);
 
         // TODO: 3 - Use IntStream.iterate to generate a Fibonacci-like sequence
         //           Since iterate works with single values, use a trick:
@@ -33,17 +34,20 @@ public class IntStreamIterate {
         //           Stream.iterate(new int[]{0, 1}, f -> new int[]{f[1], f[0] + f[1]})
         //           then mapToInt(f -> f[0])
         //           Print each number
-
+        Stream.iterate(new int[]{0,1}, f -> new int[]{f[1], f[0] + f[1]})
+                .limit(10)
+                .mapToInt(f -> f[0])
+                    .forEach(System.out::println);
 
         // TODO: 4 - Use LongStream.range to generate numbers from 1 to 1_000_000
         //           Calculate and print the sum
         //           This demonstrates why LongStream exists (the sum exceeds int range)
-
+        System.out.println(LongStream.rangeClosed(1L, 1_000_000L).sum());
 
         // TODO: 5 - Use DoubleStream to generate 5 random numbers between 0.0 and 1.0
         //           Use DoubleStream.generate(Math::random).limit(5)
         //           Print each number formatted to 4 decimal places
         //           Hint: Use forEach(d -> System.out.printf("%.4f%n", d))
-
+        DoubleStream.generate(()->  Math.random()).limit(5).forEach(d -> System.out.printf("%.4f\n", d));
     }
 }
