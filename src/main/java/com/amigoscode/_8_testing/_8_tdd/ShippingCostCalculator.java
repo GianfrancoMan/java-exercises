@@ -27,6 +27,11 @@ public class ShippingCostCalculator {
      */
     public double calculate(double weight, String destination) {
         // TODO: Students implement this after writing tests first (TDD approach)
-        throw new UnsupportedOperationException("Implement me using TDD!");
+        var shippingCost = 0.0;
+        if(null == destination || weight < 0) throw new IllegalArgumentException("Weight cannot be negative: " + weight);
+        if(weight == 0.0) return shippingCost;
+        shippingCost = destination.equalsIgnoreCase("domestic") ? 5 + (weight * 0.50) : 15 + (weight * 1.50);
+        if(weight > 50) shippingCost += 25;
+        return shippingCost;
     }
 }

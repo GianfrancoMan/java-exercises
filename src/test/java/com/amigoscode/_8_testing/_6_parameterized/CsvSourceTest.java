@@ -23,6 +23,11 @@ class CsvSourceTest {
     //  @CsvSource({"1, 1, 2", "2, 3, 5", "10, -5, 5", "0, 0, 0", "-3, -7, -10"})
     //  The test method takes (int a, int b, int expectedSum) parameters.
     //  Assert that a + b equals expectedSum.
+    @ParameterizedTest
+    @CsvSource({"1, 1, 2", "2, 3, 5", "10, -5, 5", "0, 0, 0", "-3, -7, -10"})
+    public void parameterizedInputsTest(int a, int b ,int expected) {
+        assertEquals((a + b), expected);
+    }
 
 
     // TODO: 2 - Test string operations with @CsvSource.
@@ -31,7 +36,11 @@ class CsvSourceTest {
     //  The test method takes (String input, String expected) parameters.
     //  Assert that input.toUpperCase() equals expected.
     //  Note: Use single quotes for empty strings in CSV.
-
+    @ParameterizedTest
+    @CsvSource({"hello, HELLO", "world, WORLD", "java, JAVA", "'', ''"})
+    public void parameterizedInputsTest(String actual, String expected) {
+        assertEquals(actual.toUpperCase(), expected);
+    }
 
     // TODO: 3 - Use @CsvFileSource to load test data from a CSV file.
     //  Create a file at src/test/resources/email-test-data.csv with content:
@@ -44,15 +53,24 @@ class CsvSourceTest {
     //      numLinesToSkip = 1) to skip the header row.
     //  The test method takes (String email, boolean expected) parameters.
     //  Use a new EmailValidator() to test isValid(email) equals expected.
+    @ParameterizedTest
+    @CsvFileSource(resources = "/email-test-data.csv", numLinesToSkip = 1)
+    public void csvFileSourceTest(String email, String expected) {
+        var validator = new EmailValidator();
+        assertEquals(expected, String.valueOf(validator.isValid(email)));
 
+    }
 
     // TODO: 4 - Use custom display names with @ParameterizedTest(name = ...).
     //  Annotate with @ParameterizedTest(name = "{0} * {1} = {2}")
     //  and @CsvSource({"2, 3, 6", "4, 5, 20", "0, 100, 0", "-2, 3, -6"}).
     //  The test method takes (int a, int b, int expectedProduct) parameters.
     //  Assert that a * b equals expectedProduct.
-
-
+    @ParameterizedTest(name = "{0} * {1} = {2}")
+    @CsvSource({"2, 3, 6", "4, 5, 20", "0, 100, 0", "-2, 3, -6"})
+    public void expectedProductByAnnotationsTest(int a, int b, int expectedPproduct) {
+        assertEquals(( a * b ), expectedPproduct);
+    }
     // TODO: 5 - Use @ArgumentsSource with a custom ArgumentsProvider.
     //  Create a static inner class named CustomArgumentsProvider that
     //  implements ArgumentsProvider.
@@ -61,15 +79,21 @@ class CsvSourceTest {
     //  Write a test annotated with @ArgumentsSource(CustomArgumentsProvider.class).
     //  Assert that input.length() equals expectedLength.
     //  Hint:
-    //  static class CustomArgumentsProvider implements ArgumentsProvider {
-    //      @Override
-    //      public Stream<? extends Arguments> provideArguments(ExtensionContext ctx) {
-    //          return Stream.of(
-    //              Arguments.of("hello", 5),
-    //              Arguments.of("", 0),
-    //              Arguments.of("Java", 4)
-    //          );
-    //      }
-    //  }
+      static class CustomArgumentsProvider implements ArgumentsProvider {
+          @Override
+          public Stream<? extends Arguments> provideArguments(ExtensionContext ctx) {
+              return Stream.of(
+                  Arguments.of("hello", 5),
+                  Arguments.of("", 0),
+                  Arguments.of("Java", 4)
+              );
+          }
+      }
+
+  @ParameterizedTest
+  @ArgumentsSource(CustomArgumentsProvider.class)
+   public  void argumentsProviderTest(String input, int expected) {
+        assertEquals(expected, input.length());
+  }
 
 }
